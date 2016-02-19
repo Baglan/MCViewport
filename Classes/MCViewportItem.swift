@@ -28,13 +28,13 @@ extension MCViewport {
         }
         
         func transformForContentOffset(contentOffset: CGPoint) -> CGAffineTransform {
-            return CGAffineTransformMakeTranslation(contentOffset.x * (parallax.x - 1), contentOffset.y * (parallax.y - 1))
+            return CGAffineTransformMakeTranslation(-contentOffset.x * (parallax.x - 1), -contentOffset.y * (parallax.y - 1))
         }
         
         func place(frame frame: CGRect, viewportOffset: CGPoint = CGPointZero, parallax: CGPoint = CGPointMake(1, 1)) {
             self.parallax = parallax
-            let invertedTransform = CGAffineTransformInvert(transformForContentOffset(viewportOffset))
-            originalFrame = CGRectApplyAffineTransform(frame, invertedTransform)
+            let referenceOffset = CGPointApplyAffineTransform(CGPointZero, transformForContentOffset(viewportOffset))
+            originalFrame = CGRectApplyAffineTransform(frame, CGAffineTransformMakeTranslation(viewportOffset.x - referenceOffset.x, viewportOffset.y - referenceOffset.y))
         }
         
         var view: UIView? {

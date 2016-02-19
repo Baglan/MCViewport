@@ -23,7 +23,21 @@ class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        bounds.origin = scrollView.contentOffset
+        contentOffset = scrollView.contentOffset
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        contentOffset = scrollView.contentOffset
+    }
+    
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        contentOffset = scrollView.contentOffset
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            contentOffset = scrollView.contentOffset
+        }
     }
     
     override init(frame: CGRect) {
@@ -44,14 +58,18 @@ extension MCViewport {
             set { super.contentOffset = adjustContentOffsetForDirection(newValue) }
         }
         
-        // MARK: - Direction lock
+        var adjustedContentOffset: CGPoint {
+            return adjustContentOffsetForDirection(contentOffset)
+        }
         
+        // MARK: - Direction lock
+        var alternateDirectionalLockEnabled = false
         var direction: DirectionGestureRecognizer.Direction?
         private var initialContentOffset = CGPointZero
         
         func adjustContentOffsetForDirection(offset: CGPoint) -> CGPoint {
-            guard let direction = direction where directionalLockEnabled && (tracking || dragging || decelerating) else { return offset }
-            
+            guard let direction = direction where alternateDirectionalLockEnabled && (tracking || dragging || decelerating) else { return offset }
+
             switch direction {
             case .Horizontal:
                 return CGPoint(x: offset.x, y: initialContentOffset.y)
@@ -63,6 +81,7 @@ extension MCViewport {
         lazy var directionGestureRecognizer: DirectionGestureRecognizer = {
             let recognizer = DirectionGestureRecognizer(target: self, action: "onDirection:")
             recognizer.cancelsTouchesInView = false
+            recognizer.delaysTouchesBegan = true
             return recognizer
         }()
         
@@ -93,20 +112,36 @@ extension MCViewport {
             direction = nil
         }
         
+        var initialTouchLocation: CGPoint?
+        let detectionTimeInterval: NSTimeInterval = 0.01
+        let detectionDistance: CGFloat = 5
+        
         override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
             super.touchesBegan(touches, withEvent: event)
             
+            guard let touch = touches.first, let view = view else {
+                state = .Failed
+                return
+            }
+            
+            initialTouchLocation = touch.locationInView(view)
             state = .Began
         }
         
         override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
             super.touchesMoved(touches, withEvent: event)
             
-            if let touch = touches.first, let view = view {
-                let previousLocation = touch.previousLocationInView(view)
-                let currentLocation = touch.locationInView(view)
-                let deltaX = abs(currentLocation.x - previousLocation.x)
-                let deltaY = abs(currentLocation.y - previousLocation.y)
+            guard let initialTouchLocation = initialTouchLocation, let touch = touches.first, let view = view else {
+                state = .Failed
+                return
+            }
+            
+            let currentLocation = touch.locationInView(view)
+            let deltaX = abs(currentLocation.x - initialTouchLocation.x)
+            let deltaY = abs(currentLocation.y - initialTouchLocation.y)
+            let distanceSquare = deltaX * deltaX + deltaY * deltaY
+            
+            if distanceSquare > detectionDistance * detectionDistance {
                 direction = deltaX > deltaY ? .Horizontal : .Vertical
                 state = .Ended
             }

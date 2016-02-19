@@ -26,8 +26,6 @@ class MCViewport: UIView {
                 bounds.origin = newValue
             }
             
-            NSLog("--- stopped: \(_hasStopped)")
-            
             setNeedsLayout()
         }
     }

@@ -7,17 +7,16 @@
 //
 
 import UIKit
+import UIKit.UIGestureRecognizerSubclass
 
 class ViewController: UIViewController, UIScrollViewDelegate {
-    @IBOutlet weak var viewport: MCViewport!
+    @IBOutlet weak var viewport: MCViewportWithScrollView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    var scrollView = UIScrollView()
-    let displayLinker = MCDisplayLinker()
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -35,33 +34,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         item.zIndex = 200
         viewport.addItem(item)
         
-        viewport.update()
+        viewport.scrollView.pagingEnabled = true
+        viewport.scrollView.directionalLockEnabled = true
+        viewport.scrollView.frame = viewport.bounds
+        viewport.scrollView.contentSize = CGSizeMake(viewport.bounds.width * 5, viewport.bounds.height * 2)
+        viewport.scrollView.alwaysBounceHorizontal = true
+        viewport.scrollView.alwaysBounceVertical = true
         
-        scrollView.delegate = self
-        scrollView.pagingEnabled = true
-        scrollView.directionalLockEnabled = true
-        scrollView.contentSize = CGSizeMake(view.bounds.width * 2, view.bounds.height * 2)
-        scrollView.frame = view.bounds
-        scrollView.alwaysBounceHorizontal = true
-        scrollView.alwaysBounceVertical = true
-
-        
-        view.addGestureRecognizer(scrollView.panGestureRecognizer)
-//        view.addSubview(scrollView)
-        
+        viewport.setNeedsLayout()
     }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        viewport.contentTransformation.translation = CGPointMake(-scrollView.contentOffset.x, -scrollView.contentOffset.y)
-        viewport.update()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
 class MyItem: MCViewport.ViewItem {
@@ -80,7 +61,7 @@ class MyViewController: UIViewController {
         super.viewDidLoad()
         
         button.action = { _ in
-            NSLog("--- hola!")
+            NSLog("--- tap!")
         }
     }
 }

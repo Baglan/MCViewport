@@ -10,54 +10,40 @@ import Foundation
 import UIKit
 
 class MCViewport: UIView {
+    private var _hasStopped = true
     
-    struct Transformation {
-        var translation: CGPoint
-        var rotation: CGFloat
-        var scale: CGFloat
-        
-        var transform: CGAffineTransform {
-            var tr = CGAffineTransformMakeTranslation(translation.x, translation.y)
-            tr = CGAffineTransformRotate(tr, rotation)
-            tr = CGAffineTransformScale(tr, scale, scale)
-            return tr
+    var hasStopped: Bool { return _hasStopped }
+    
+    var contentOffset: CGPoint {
+        get {
+            return bounds.origin
         }
-        
-        func transform(parallax: CGPoint) -> CGAffineTransform {
-            var tr = CGAffineTransformMakeTranslation(translation.x * parallax.x, translation.y * parallax.y)
-            tr = CGAffineTransformRotate(tr, rotation)
-            tr = CGAffineTransformScale(tr, scale, scale)
-            return tr
+        set {
+            if bounds.origin == newValue {
+                _hasStopped = true
+            } else {
+                _hasStopped = false
+                bounds.origin = newValue
+            }
+            
+            NSLog("--- stopped: \(_hasStopped)")
+            
+            setNeedsLayout()
         }
     }
     
-    var contentTransformation = Transformation(translation: CGPointZero, rotation: 0, scale: 1)
+    // MARK: - Recycler
     
-    private var _previousContentTransformation: Transformation! = nil
+    var recycler = MCRecycler()
     
-    private var _hasStopped: Bool = false
-    var hasStopped: Bool {
-        return _hasStopped
-    }
-    func update() {
-        if _previousContentTransformation == nil || _previousContentTransformation != contentTransformation {
-            _previousContentTransformation = contentTransformation
-            _hasStopped = false
-        } else {
-            _hasStopped = true
-        }
-        setNeedsLayout()
-    }
+    // MARK: - Pocket
     
-    // MARK: - Display
-    let displayLinker = MCDisplayLinker()
-    
-    func activate() {
-        displayLinker.callback = { _ in
-            self.setNeedsLayout()
-        }
-        displayLinker.start()
-    }
+    lazy var hiddenPocket: UIView = {
+        let pocket = UIView()
+        pocket.hidden = true
+        self.addSubview(pocket)
+        return pocket
+    }()
     
     // MARK: - Items
     
@@ -117,12 +103,4 @@ class MCViewport: UIView {
             item.update()
         }
     }
-}
-
-func ==(lhs: MCViewport.Transformation, rhs: MCViewport.Transformation) -> Bool {
-    return lhs.translation == rhs.translation && lhs.rotation == rhs.rotation && lhs.scale == rhs.scale
-}
-
-func !=(lhs: MCViewport.Transformation, rhs: MCViewport.Transformation) -> Bool {
-    return !(lhs == rhs)
 }

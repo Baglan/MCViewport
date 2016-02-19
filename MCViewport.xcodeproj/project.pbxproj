@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86E41F211C76CBF20083E5F2 /* MCViewportWithScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E41F201C76CBF20083E5F2 /* MCViewportWithScrollView.swift */; };
 		86FA86DA1C6C7AFA0023204A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86D91C6C7AFA0023204A /* AppDelegate.swift */; };
 		86FA86DC1C6C7AFA0023204A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86DB1C6C7AFA0023204A /* ViewController.swift */; };
 		86FA86DF1C6C7AFA0023204A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FA86DD1C6C7AFA0023204A /* Main.storyboard */; };
@@ -14,13 +15,13 @@
 		86FA86E41C6C7AFA0023204A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86FA86E21C6C7AFA0023204A /* LaunchScreen.storyboard */; };
 		86FA86ED1C6C7B2C0023204A /* MCViewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86EC1C6C7B2C0023204A /* MCViewport.swift */; };
 		86FA86EF1C6C7B9E0023204A /* MCViewportItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86EE1C6C7B9E0023204A /* MCViewportItem.swift */; };
-		86FA86F11C6C7DCE0023204A /* MCDisplayLinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86F01C6C7DCE0023204A /* MCDisplayLinker.swift */; };
 		86FA86F31C6C7E3A0023204A /* MCRecycler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86F21C6C7E3A0023204A /* MCRecycler.swift */; };
 		86FA86F51C6CCD7F0023204A /* MCButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86F41C6CCD7F0023204A /* MCButton.swift */; };
 		86FA86F71C6CCD9F0023204A /* RoundRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86F61C6CCD9F0023204A /* RoundRectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		86E41F201C76CBF20083E5F2 /* MCViewportWithScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCViewportWithScrollView.swift; path = Classes/MCViewportWithScrollView.swift; sourceTree = "<group>"; };
 		86FA86D61C6C7AFA0023204A /* MCViewport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCViewport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86FA86D91C6C7AFA0023204A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86FA86DB1C6C7AFA0023204A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,7 +31,6 @@
 		86FA86E51C6C7AFA0023204A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86FA86EC1C6C7B2C0023204A /* MCViewport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCViewport.swift; path = Classes/MCViewport.swift; sourceTree = "<group>"; };
 		86FA86EE1C6C7B9E0023204A /* MCViewportItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCViewportItem.swift; path = Classes/MCViewportItem.swift; sourceTree = "<group>"; };
-		86FA86F01C6C7DCE0023204A /* MCDisplayLinker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCDisplayLinker.swift; path = Classes/MCDisplayLinker.swift; sourceTree = "<group>"; };
 		86FA86F21C6C7E3A0023204A /* MCRecycler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCRecycler.swift; path = Classes/MCRecycler.swift; sourceTree = "<group>"; };
 		86FA86F41C6CCD7F0023204A /* MCButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCButton.swift; sourceTree = "<group>"; };
 		86FA86F61C6CCD9F0023204A /* RoundRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundRectView.swift; sourceTree = "<group>"; };
@@ -84,8 +84,8 @@
 			children = (
 				86FA86EC1C6C7B2C0023204A /* MCViewport.swift */,
 				86FA86EE1C6C7B9E0023204A /* MCViewportItem.swift */,
-				86FA86F01C6C7DCE0023204A /* MCDisplayLinker.swift */,
 				86FA86F21C6C7E3A0023204A /* MCRecycler.swift */,
+				86E41F201C76CBF20083E5F2 /* MCViewportWithScrollView.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -162,7 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86FA86DC1C6C7AFA0023204A /* ViewController.swift in Sources */,
-				86FA86F11C6C7DCE0023204A /* MCDisplayLinker.swift in Sources */,
+				86E41F211C76CBF20083E5F2 /* MCViewportWithScrollView.swift in Sources */,
 				86FA86F51C6CCD7F0023204A /* MCButton.swift in Sources */,
 				86FA86F31C6C7E3A0023204A /* MCRecycler.swift in Sources */,
 				86FA86ED1C6C7B2C0023204A /* MCViewport.swift in Sources */,
@@ -318,6 +318,7 @@
 				86FA86EA1C6C7AFA0023204A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

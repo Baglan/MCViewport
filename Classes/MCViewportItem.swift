@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+
+
 extension MCViewport {
     class Item: Hashable {
         var originalFrame = CGRectZero
@@ -21,16 +23,17 @@ extension MCViewport {
         var viewport: MCViewport?
         
         var frame: CGRect {
-            if let viewport = viewport {
-                return CGRectApplyAffineTransform(originalFrame, viewport.contentTransformation.transform(parallax))
-            }
-            return originalFrame
+            guard let viewport = viewport else { return originalFrame }
+            return CGRectApplyAffineTransform(originalFrame, transformForContentOffset(viewport.contentOffset))
+        }
+        
+        func transformForContentOffset(contentOffset: CGPoint) -> CGAffineTransform {
+            return CGAffineTransformMakeTranslation(contentOffset.x * (parallax.x - 1), contentOffset.y * (parallax.y - 1))
         }
         
         func place(frame frame: CGRect, viewportOffset: CGPoint = CGPointZero, parallax: CGPoint = CGPointMake(1, 1)) {
             self.parallax = parallax
-            let offsetTransform = CGAffineTransformMakeTranslation(viewportOffset.x, viewportOffset.y)
-            let invertedTransform = CGAffineTransformInvert(offsetTransform)
+            let invertedTransform = CGAffineTransformInvert(transformForContentOffset(viewportOffset))
             originalFrame = CGRectApplyAffineTransform(frame, invertedTransform)
         }
         
@@ -58,7 +61,8 @@ extension MCViewport {
         // MARK: - Updates
         
         func update() {
-            
+            guard let viewport = viewport, let view = view else { return }
+            view.center =  CGPointApplyAffineTransform(originalFrame.center, transformForContentOffset(viewport.contentOffset))
         }
     }
     
@@ -77,7 +81,7 @@ extension MCViewport {
             guard let viewport = viewport else { return }
             
             // Create of dequeue a view
-            _view = MCRecycler.sharedInstance.dequeue(String(self.dynamicType)) as? UIView ?? newView()
+            _view = viewport.recycler.dequeue(String(self.dynamicType)) as? UIView ?? newView()
             
             guard let view = view else { return }
             
@@ -95,18 +99,14 @@ extension MCViewport {
         }
         
         override func didBecomeInvisible() {
-            guard let view = view else { return }
+            guard let view = view, let viewport = viewport else { return }
             
-            MCRecycler.sharedInstance.recycle(String(self.dynamicType), object: view)
-            view.removeFromSuperview()
-        }
-        
-        override func update() {
-            guard let viewport = viewport, let view = view else { return }
-            
-            view.transform = viewport.contentTransformation.transform(parallax)
+            viewport.hiddenPocket.addSubview(view)
+            viewport.recycler.recycle(String(self.dynamicType), object: view)
         }
     }
+    
+
     
     class ViewControllerItem: Item {
         var viewController: UIViewController?
@@ -123,7 +123,7 @@ extension MCViewport {
             guard let viewport = viewport else { return }
             
             // Create of dequeue a view controller
-            viewController = MCRecycler.sharedInstance.dequeue(String(self.dynamicType)) as? UIViewController ?? newViewController()
+            viewController = viewport.recycler.dequeue(String(self.dynamicType)) as? UIViewController ?? newViewController()
             
             guard let viewController = viewController, let view = viewController.view else { return }
             
@@ -141,20 +141,20 @@ extension MCViewport {
         }
         
         override func didBecomeInvisible() {
-            guard let view = view else { return }
+            guard let view = view, let viewport = viewport else { return }
             
-            MCRecycler.sharedInstance.recycle(String(self.dynamicType), object: view)
-            view.removeFromSuperview()
-        }
-        
-        override func update() {
-            guard let viewport = viewport, let view = view else { return }
-            
-            view.transform = viewport.contentTransformation.transform(parallax)
+            viewport.hiddenPocket.addSubview(view)
+            viewport.recycler.recycle(String(self.dynamicType), object: view)
         }
     }
 }
 
 func ==(lhs: MCViewport.Item, rhs: MCViewport.Item) -> Bool {
     return lhs === rhs
+}
+
+extension CGRect {
+    var center: CGPoint {
+        return CGPoint(x: CGRectGetMidX(self), y: CGRectGetMidY(self))
+    }
 }

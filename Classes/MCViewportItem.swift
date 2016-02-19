@@ -50,7 +50,7 @@ extension MCViewport {
             return false
         }
         
-        func didBecomeVisible() {
+        func willBecomeVisible() {
             
         }
         
@@ -77,7 +77,7 @@ extension MCViewport {
             return UIView()
         }
         
-        override func didBecomeVisible() {
+        override func willBecomeVisible() {
             guard let viewport = viewport else { return }
             
             // Create of dequeue a view
@@ -119,7 +119,7 @@ extension MCViewport {
             return nil
         }
         
-        override func didBecomeVisible() {
+        override func willBecomeVisible() {
             guard let viewport = viewport else { return }
             
             // Create of dequeue a view controller

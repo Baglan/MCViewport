@@ -9,7 +9,7 @@
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class ViewController: UIViewController {
     @IBOutlet weak var viewport: MCViewportWithScrollView!
 
     override func viewDidLoad() {
@@ -64,8 +64,8 @@ class PageIndicator: MCViewport.ViewItem {
         self.pageNumber = pageNumber
     }
     
-    override func didBecomeVisible() {
-        super.didBecomeVisible()
+    override func willBecomeVisible() {
+        super.willBecomeVisible()
         
         guard let label = view as? UILabel else { return }
         label.text = "\(pageNumber)"
@@ -84,8 +84,8 @@ class PageIndicator: MCViewport.ViewItem {
 }
 
 class MyItem: MCViewport.ViewItem {
-    override func didBecomeVisible() {
-        super.didBecomeVisible()
+    override func willBecomeVisible() {
+        super.willBecomeVisible()
         if let view = view {
             view.backgroundColor = UIColor.redColor()
         }

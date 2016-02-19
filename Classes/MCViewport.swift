@@ -84,7 +84,7 @@ class MCViewport: UIView {
         }
         
         for item in newlyVisible {
-            item.didBecomeVisible()
+            item.willBecomeVisible()
         }
         
         let sorted = visibleItems.sort { (a, b) -> Bool in

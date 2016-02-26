@@ -61,8 +61,8 @@ extension MCViewport {
         // MARK: - Updates
         
         func update() {
-            guard let viewport = viewport, let view = view else { return }
-            view.center =  CGPointApplyAffineTransform(originalFrame.center, transformForContentOffset(viewport.contentOffset))
+            guard let view = view else { return }
+            view.center = frame.center
         }
     }
     

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8633F5B71C821018007F6130 /* MCViewportItem+MovementConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8633F5B61C821018007F6130 /* MCViewportItem+MovementConstraints.swift */; };
+		8633F5B91C82102D007F6130 /* MCViewportItem+Distances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8633F5B81C82102D007F6130 /* MCViewportItem+Distances.swift */; };
 		86E41F211C76CBF20083E5F2 /* MCViewportWithScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E41F201C76CBF20083E5F2 /* MCViewportWithScrollView.swift */; };
 		86FA86DA1C6C7AFA0023204A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86D91C6C7AFA0023204A /* AppDelegate.swift */; };
 		86FA86DC1C6C7AFA0023204A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FA86DB1C6C7AFA0023204A /* ViewController.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8633F5B61C821018007F6130 /* MCViewportItem+MovementConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MCViewportItem+MovementConstraints.swift"; path = "Classes/MCViewportItem+MovementConstraints.swift"; sourceTree = "<group>"; };
+		8633F5B81C82102D007F6130 /* MCViewportItem+Distances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MCViewportItem+Distances.swift"; path = "Classes/MCViewportItem+Distances.swift"; sourceTree = "<group>"; };
 		86E41F201C76CBF20083E5F2 /* MCViewportWithScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MCViewportWithScrollView.swift; path = Classes/MCViewportWithScrollView.swift; sourceTree = "<group>"; };
 		86FA86D61C6C7AFA0023204A /* MCViewport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MCViewport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86FA86D91C6C7AFA0023204A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,8 +88,10 @@
 			children = (
 				86FA86EC1C6C7B2C0023204A /* MCViewport.swift */,
 				86FA86EE1C6C7B9E0023204A /* MCViewportItem.swift */,
+				8633F5B61C821018007F6130 /* MCViewportItem+MovementConstraints.swift */,
 				86FA86F21C6C7E3A0023204A /* MCRecycler.swift */,
 				86E41F201C76CBF20083E5F2 /* MCViewportWithScrollView.swift */,
+				8633F5B81C82102D007F6130 /* MCViewportItem+Distances.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -166,6 +172,8 @@
 				86FA86F51C6CCD7F0023204A /* MCButton.swift in Sources */,
 				86FA86F31C6C7E3A0023204A /* MCRecycler.swift in Sources */,
 				86FA86ED1C6C7B2C0023204A /* MCViewport.swift in Sources */,
+				8633F5B91C82102D007F6130 /* MCViewportItem+Distances.swift in Sources */,
+				8633F5B71C821018007F6130 /* MCViewportItem+MovementConstraints.swift in Sources */,
 				86FA86EF1C6C7B9E0023204A /* MCViewportItem.swift in Sources */,
 				86FA86DA1C6C7AFA0023204A /* AppDelegate.swift in Sources */,
 				86FA86F71C6CCD9F0023204A /* RoundRectView.swift in Sources */,

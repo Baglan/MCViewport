@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-
-
 extension MCViewport {
     class Item: Hashable {
         var originalFrame = CGRectZero
@@ -24,7 +22,13 @@ extension MCViewport {
         
         var frame: CGRect {
             guard let viewport = viewport else { return originalFrame }
-            return CGRectApplyAffineTransform(originalFrame, transformForContentOffset(viewport.contentOffset))
+            var transformedFrame = CGRectApplyAffineTransform(originalFrame, transformForContentOffset(viewport.contentOffset))
+            
+            for movementConstraint in movementConstraints {
+                transformedFrame = movementConstraint.applyToFrame(transformedFrame, viewport: viewport)
+            }
+            
+            return transformedFrame
         }
         
         func transformForContentOffset(contentOffset: CGPoint) -> CGAffineTransform {
@@ -39,6 +43,23 @@ extension MCViewport {
         
         var view: UIView? {
             return nil
+        }
+        
+        // MARK: - Distances
+        
+        lazy var distances: Distances = {
+            return Distances(item: self)
+        }()
+        
+        // MARK: - Movement constraints
+
+        private var movementConstraints = [MovementConstraint]()
+        func addMovementConstraint(movementConstraint: MovementConstraint) {
+            movementConstraints.append(movementConstraint)
+            movementConstraints.sortInPlace { (a, b) -> Bool in
+                a.priority < b.priority
+            }
+            viewport?.setNeedsLayout()
         }
         
         // MARK: - Visibility

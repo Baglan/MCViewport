@@ -44,6 +44,28 @@ class ViewController: UIViewController {
         let item = MyControllerItem()
         item.place(frame: CGRect(x: 50, y: 200, width: 200, height: 200))
         item.zIndex = 200
+        
+        let leftMC = MCViewport.MovementConstraint()
+        leftMC.place(left: 0)
+        item.addMovementConstraint(leftMC)
+        
+        let rightMC = MCViewport.MovementConstraint()
+        rightMC.place(right: viewport.bounds.width)
+        item.addMovementConstraint(rightMC)
+        
+        let topMC = MCViewport.MovementConstraint()
+        topMC.place(top: 0)
+        item.addMovementConstraint(topMC)
+        
+        let bottomMC = MCViewport.MovementConstraint()
+        bottomMC.place(bottom: viewport.bounds.height)
+        item.addMovementConstraint(bottomMC)
+        
+        let pusherMC = MCViewport.MovementConstraint()
+        pusherMC.place(right: 0, viewportOffset: CGPoint(x: viewport.bounds.width * 2, y: 0), parallax: CGPoint(x: 1, y: 1))
+        pusherMC.priority = 100
+        item.addMovementConstraint(pusherMC)
+        
         viewport.addItem(item)
         
         viewport.scrollView.pagingEnabled = true
@@ -107,5 +129,11 @@ class MyViewController: UIViewController {
 class MyControllerItem: MCViewport.ViewControllerItem {
     override func newViewController() -> UIViewController? {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MyViewController")
+    }
+    
+    override func update() {
+        super.update()
+        
+        NSLog("--- distances: left: \(distances.left) top: \(distances.top) bottom: \(distances.bottom) right: \(distances.right) center: \(distances.center)")
     }
 }

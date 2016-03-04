@@ -98,7 +98,7 @@ extension MCViewport {
                 let bottomPoint = CGPointApplyAffineTransform(CGPoint(x: 0, y: bottom), transform)
                 
                 if CGRectGetMaxY(transformedFrame) > bottomPoint.y {
-                    transformedFrame.origin.y = bottomPoint.y - transformedFrame.width
+                    transformedFrame.origin.y = bottomPoint.y - transformedFrame.height
                 }
             }
             

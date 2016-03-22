@@ -79,7 +79,7 @@ extension MCViewport {
         }
         
         lazy var directionGestureRecognizer: DirectionGestureRecognizer = {
-            let recognizer = DirectionGestureRecognizer(target: self, action: "onDirection:")
+            let recognizer = DirectionGestureRecognizer(target: self, action: #selector(ScrollView.onDirection(_:)))
             recognizer.cancelsTouchesInView = false
             recognizer.delaysTouchesBegan = true
             return recognizer

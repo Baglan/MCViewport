@@ -83,7 +83,7 @@ extension MCViewport {
         
         func update() {
             guard let view = view else { return }
-            view.center = frame.center
+            view.center = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         }
     }
     
@@ -172,10 +172,4 @@ extension MCViewport {
 
 func ==(lhs: MCViewport.Item, rhs: MCViewport.Item) -> Bool {
     return lhs === rhs
-}
-
-extension CGRect {
-    var center: CGPoint {
-        return CGPoint(x: CGRectGetMidX(self), y: CGRectGetMidY(self))
-    }
 }

@@ -162,10 +162,10 @@ extension MCViewport {
         }
         
         override func didBecomeInvisible() {
-            guard let view = view, let viewport = viewport else { return }
+            guard let view = view, let viewController = viewController, let viewport = viewport else { return }
             
             viewport.hiddenPocket.addSubview(view)
-            viewport.recycler.recycle(String(self.dynamicType), object: view)
+            viewport.recycler.recycle(String(self.dynamicType), object: viewController)
         }
     }
 }

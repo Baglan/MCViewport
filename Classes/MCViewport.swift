@@ -10,24 +10,30 @@ import Foundation
 import UIKit
 
 class MCViewport: UIView {
-    private var _hasStopped = true
+    /// Tracks whether scrolling has stopped
+    var hasStopped = true
     
-    var hasStopped: Bool { return _hasStopped }
-    
+    /// Tracks content offset and updates *hasStopped*
     var contentOffset: CGPoint {
         get {
             return bounds.origin
         }
         set {
             if bounds.origin == newValue {
-                _hasStopped = true
+                hasStopped = true
             } else {
-                _hasStopped = false
+                hasStopped = false
                 bounds.origin = newValue
             }
             
             setNeedsLayout()
         }
+    }
+    
+    /// Helper function that updates _contentOffset_ and sets _hasStopped_ to _true_
+    func jumpTo(contentOffset contentOffset: CGPoint) {
+        self.contentOffset = contentOffset
+        hasStopped = true
     }
     
     // MARK: - Recycler

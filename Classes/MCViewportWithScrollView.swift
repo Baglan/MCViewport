@@ -147,6 +147,18 @@ extension MCViewport {
             }
         }
         
+        override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
+            super.touchesEnded(touches, withEvent: event)
+            
+            state = .Failed
+        }
+        
+        override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
+            super.touchesCancelled(touches, withEvent: event)
+            
+            state = .Failed
+        }
+        
         override func canPreventGestureRecognizer(preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
             return false
         }

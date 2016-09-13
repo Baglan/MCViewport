@@ -15,26 +15,26 @@ class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
     
     func setupScrollView() {
         scrollView = MCViewport.ScrollView(frame: frame)
-        scrollView.hidden = true
+        scrollView.isHidden = true
         addSubview(scrollView)
         addGestureRecognizer(scrollView.panGestureRecognizer)
         addGestureRecognizer(scrollView.directionGestureRecognizer)
         scrollView.delegate = self
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         contentOffset = scrollView.contentOffset
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         contentOffset = scrollView.contentOffset
     }
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         contentOffset = scrollView.contentOffset
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             contentOffset = scrollView.contentOffset
         }
@@ -65,15 +65,15 @@ extension MCViewport {
         // MARK: - Direction lock
         var alternateDirectionalLockEnabled = false
         var direction: DirectionGestureRecognizer.Direction?
-        private var initialContentOffset = CGPointZero
+        fileprivate var initialContentOffset = CGPoint.zero
         
-        func adjustContentOffsetForDirection(offset: CGPoint) -> CGPoint {
-            guard let direction = direction where alternateDirectionalLockEnabled && (tracking || dragging || decelerating) else { return offset }
+        func adjustContentOffsetForDirection(_ offset: CGPoint) -> CGPoint {
+            guard let direction = direction , alternateDirectionalLockEnabled && (isTracking || isDragging || isDecelerating) else { return offset }
 
             switch direction {
-            case .Horizontal:
+            case .horizontal:
                 return CGPoint(x: offset.x, y: initialContentOffset.y)
-            case .Vertical:
+            case .vertical:
                 return CGPoint(x: initialContentOffset.x, y: offset.y)
             }
         }
@@ -85,12 +85,12 @@ extension MCViewport {
             return recognizer
         }()
         
-        func onDirection(recognizer: DirectionGestureRecognizer) {
+        func onDirection(_ recognizer: DirectionGestureRecognizer) {
             switch recognizer.state {
-            case .Began:
+            case .began:
                 direction = nil
                 initialContentOffset = contentOffset
-            case .Ended:
+            case .ended:
                 direction = recognizer.direction
             default:
                 direction = nil
@@ -100,8 +100,8 @@ extension MCViewport {
     
     class DirectionGestureRecognizer: UIGestureRecognizer {
         enum Direction {
-            case Horizontal
-            case Vertical
+            case horizontal
+            case vertical
         }
         
         var direction: Direction?
@@ -113,53 +113,53 @@ extension MCViewport {
         }
         
         var initialTouchLocation: CGPoint?
-        let detectionTimeInterval: NSTimeInterval = 0.01
+        let detectionTimeInterval: TimeInterval = 0.01
         let detectionDistance: CGFloat = 5
         
-        override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
-            super.touchesBegan(touches, withEvent: event)
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+            super.touchesBegan(touches, with: event)
             
             guard let touch = touches.first, let view = view else {
-                state = .Failed
+                state = .failed
                 return
             }
             
-            initialTouchLocation = touch.locationInView(view)
-            state = .Began
+            initialTouchLocation = touch.location(in: view)
+            state = .began
         }
         
-        override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
-            super.touchesMoved(touches, withEvent: event)
+        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+            super.touchesMoved(touches, with: event)
             
             guard let initialTouchLocation = initialTouchLocation, let touch = touches.first, let view = view else {
-                state = .Failed
+                state = .failed
                 return
             }
             
-            let currentLocation = touch.locationInView(view)
+            let currentLocation = touch.location(in: view)
             let deltaX = abs(currentLocation.x - initialTouchLocation.x)
             let deltaY = abs(currentLocation.y - initialTouchLocation.y)
             let distanceSquare = deltaX * deltaX + deltaY * deltaY
             
             if distanceSquare > detectionDistance * detectionDistance {
-                direction = deltaX > deltaY ? .Horizontal : .Vertical
-                state = .Ended
+                direction = deltaX > deltaY ? .horizontal : .vertical
+                state = .ended
             }
         }
         
-        override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
-            super.touchesEnded(touches, withEvent: event)
+        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+            super.touchesEnded(touches, with: event)
             
-            state = .Failed
+            state = .failed
         }
         
-        override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent) {
-            super.touchesCancelled(touches, withEvent: event)
+        override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+            super.touchesCancelled(touches, with: event)
             
-            state = .Failed
+            state = .failed
         }
         
-        override func canPreventGestureRecognizer(preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
+        override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
             return false
         }
     }

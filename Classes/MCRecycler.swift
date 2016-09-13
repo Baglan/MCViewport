@@ -9,19 +9,19 @@
 import Foundation
 
 class MCRecycler {
-    private var recycled = [String:[AnyObject]]()
+    fileprivate var recycled = [String:[AnyObject]]()
     
-    func recycle(recyclingKey: String, object: AnyObject) {
+    func recycle(_ recyclingKey: String, object: AnyObject) {
         var recycledArray = recycled[recyclingKey] ?? [AnyObject]()
         recycledArray.append(object)
         recycled[recyclingKey] = recycledArray
     }
     
-    func recycle(object: AnyObject) {
-        recycle(String(object.dynamicType), object: object)
+    func recycle(_ object: AnyObject) {
+        recycle(String(describing: type(of: object)), object: object)
     }
     
-    func dequeue(recyclingKey: String) -> AnyObject? {
+    func dequeue(_ recyclingKey: String) -> AnyObject? {
         return recycled[recyclingKey]?.popLast()
     }
     

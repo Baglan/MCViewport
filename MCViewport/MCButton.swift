@@ -12,15 +12,15 @@ import UIKit
 class MCButton: UIView {
     var touchedAlpha: CGFloat = 0.6
     
-    var onTouch:((button: MCButton) -> ())? = { (button: MCButton) -> Void in
+    var onTouch:((_ button: MCButton) -> ())? = { (button: MCButton) -> Void in
         button.alpha = button.touchedAlpha
     }
     
-    var onRelease:((button: MCButton) -> ())? = { (button: MCButton) -> Void in
+    var onRelease:((_ button: MCButton) -> ())? = { (button: MCButton) -> Void in
         button.alpha = 1
     }
     
-    @objc var action:((button: MCButton) -> ())? = nil
+    @objc var action:((_ button: MCButton) -> ())? = nil
     
     internal var _touched: Bool = false
     var touched: Bool {
@@ -29,27 +29,27 @@ class MCButton: UIView {
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         _touched = true
         if let callback = onTouch {
-            callback(button: self)
+            callback(self)
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         _touched = false
         if let callback = onRelease {
-            callback(button: self)
+            callback(self)
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         _touched = false
         if let callback = onRelease {
-            callback(button: self)
+            callback(self)
         }
         if let callback = action {
-            callback(button: self)
+            callback(self)
         }
     }
     

@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         let verticalPages = 3
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         for x in 1...10 {
             for y in 1...1 {
                 let item = MyItem()
-                item.place(frame: CGRectMake(CGFloat(x) * 110, CGFloat(y) * 110, 100, 100), viewportOffset: CGPointZero, parallax: CGPoint(x: 1.5, y: 1.5))
+                item.place(frame: CGRect(x: CGFloat(x) * 110, y: CGFloat(y) * 110, width: 100, height: 100), viewportOffset: CGPoint.zero, parallax: CGPoint(x: 1.5, y: 1.5))
                 item.zIndex = 100
                 viewport.addItem(item)
             }
@@ -68,10 +68,10 @@ class ViewController: UIViewController {
         
         viewport.addItem(item)
         
-        viewport.scrollView.pagingEnabled = true
+        viewport.scrollView.isPagingEnabled = true
         viewport.scrollView.alternateDirectionalLockEnabled = true
         viewport.scrollView.frame = viewport.bounds
-        viewport.scrollView.contentSize = CGSizeMake(viewport.bounds.width * CGFloat(horizontalPages), viewport.bounds.height * CGFloat(verticalPages))
+        viewport.scrollView.contentSize = CGSize(width: viewport.bounds.width * CGFloat(horizontalPages), height: viewport.bounds.height * CGFloat(verticalPages))
         viewport.scrollView.alwaysBounceHorizontal = true
         viewport.scrollView.alwaysBounceVertical = true
         
@@ -95,11 +95,11 @@ class PageIndicator: MCViewport.ViewItem {
     
     override func newView() -> UIView {
         let label = UILabel()
-        label.font = UIFont.boldSystemFontOfSize(40)
-        label.textAlignment = .Center
+        label.font = UIFont.boldSystemFont(ofSize: 40)
+        label.textAlignment = .center
         label.text = "!"
         label.layer.borderWidth = 4
-        label.layer.borderColor = UIColor.blackColor().CGColor
+        label.layer.borderColor = UIColor.black.cgColor
         label.layer.cornerRadius = 50
         return label
     }
@@ -109,7 +109,7 @@ class MyItem: MCViewport.ViewItem {
     override func willBecomeVisible() {
         super.willBecomeVisible()
         if let view = view {
-            view.backgroundColor = UIColor.redColor()
+            view.backgroundColor = UIColor.red
         }
     }
 }
@@ -128,7 +128,7 @@ class MyViewController: UIViewController {
 
 class MyControllerItem: MCViewport.ViewControllerItem {
     override func newViewController() -> UIViewController? {
-        return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("MyViewController")
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyViewController")
     }
     
     override func update() {

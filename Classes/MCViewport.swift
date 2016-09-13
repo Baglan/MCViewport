@@ -31,7 +31,7 @@ class MCViewport: UIView {
     }
     
     /// Helper function that updates _contentOffset_ and sets _hasStopped_ to _true_
-    func jumpTo(contentOffset contentOffset: CGPoint) {
+    func jumpTo(contentOffset: CGPoint) {
         self.contentOffset = contentOffset
         hasStopped = true
     }
@@ -44,29 +44,29 @@ class MCViewport: UIView {
     
     lazy var hiddenPocket: UIView = {
         let pocket = UIView()
-        pocket.hidden = true
+        pocket.isHidden = true
         self.addSubview(pocket)
         return pocket
     }()
     
     // MARK: - Items
     
-    private var items = Set<Item>()
-    private var visibleItems = Set<Item>()
+    fileprivate var items = Set<Item>()
+    fileprivate var visibleItems = Set<Item>()
     
-    func isItemVisible(item: Item) -> Bool {
+    func isItemVisible(_ item: Item) -> Bool {
         return visibleItems.contains(item)
     }
     
-    func addItem(item: Item) {
+    func addItem(_ item: Item) {
         items.insert(item)
         item.viewport = self
     }
     
-    func removeItem(item: Item) {
-        if let index = items.indexOf(item) {
+    func removeItem(_ item: Item) {
+        if let index = items.index(of: item) {
             item.viewport = nil
-            items.removeAtIndex(index)
+            items.remove(at: index)
         }
     }
     
@@ -76,12 +76,12 @@ class MCViewport: UIView {
         super.layoutSubviews()
         
         let visibleArray = items.filter { (item) -> Bool in
-            return CGRectIntersectsRect(self.bounds, item.frame)
+            return self.bounds.intersects(item.frame)
         }
         let shouldBeVisible = Set<Item>(visibleArray)
         
-        let newlyInvisible = visibleItems.subtract(shouldBeVisible)
-        let newlyVisible = shouldBeVisible.subtract(visibleItems)
+        let newlyInvisible = visibleItems.subtracting(shouldBeVisible)
+        let newlyVisible = shouldBeVisible.subtracting(visibleItems)
         
         visibleItems = shouldBeVisible
         
@@ -93,13 +93,13 @@ class MCViewport: UIView {
             item.willBecomeVisible()
         }
         
-        let sorted = visibleItems.sort { (a, b) -> Bool in
+        let sorted = visibleItems.sorted { (a, b) -> Bool in
             a.zIndex > b.zIndex
         }
         
         for item in sorted {
             if let view = item.view {
-                sendSubviewToBack(view)
+                sendSubview(toBack: view)
             }
         }
         

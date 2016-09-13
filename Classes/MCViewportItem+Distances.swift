@@ -11,7 +11,7 @@ import UIKit
 
 extension MCViewport {
     class Distances {
-        private let item: Item
+        fileprivate let item: Item
         
         var left: CGFloat {
             guard let viewport = item.viewport else { return 0 }
@@ -34,7 +34,7 @@ extension MCViewport {
         }
         
         var center: CGPoint {
-            guard let viewport = item.viewport else { return CGPointZero }
+            guard let viewport = item.viewport else { return CGPoint.zero }
             let viewportSize = viewport.bounds.size
             let itemFrame = item.frame
             return CGPoint(x: left + itemFrame.width / 2 - viewportSize.width / 2, y: top + itemFrame.height / 2 - viewportSize.height / 2)

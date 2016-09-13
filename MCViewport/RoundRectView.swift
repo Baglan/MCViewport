@@ -16,10 +16,10 @@ import UIKit
     @IBInspectable var filled: Bool = false { didSet { setNeedsDisplay() } }
     @IBInspectable var fillColor: UIColor? { didSet { setNeedsDisplay() } }
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         
-        let boundsRect = CGRectMake(strokeWidth / 2, strokeWidth / 2, bounds.width - strokeWidth, bounds.height - strokeWidth)
+        let boundsRect = CGRect(x: strokeWidth / 2, y: strokeWidth / 2, width: bounds.width - strokeWidth, height: bounds.height - strokeWidth)
         let path = UIBezierPath(roundedRect: boundsRect, cornerRadius: boundsRect.height)
         
         if filled, let fillColor = fillColor {

@@ -11,7 +11,13 @@ import UIKit
 
 class MCViewport: UIView {
     /// Tracks whether scrolling has stopped
-    var hasStopped = true
+    var hasStopped: Bool = true {
+        didSet {
+            if let onMovement = onMovement {
+                onMovement(self)
+            }
+        }
+    }
     
     /// Tracks content offset and updates *hasStopped*
     var contentOffset: CGPoint {
@@ -27,8 +33,15 @@ class MCViewport: UIView {
             }
             
             setNeedsLayout()
+            
+            if let onMovement = onMovement {
+                onMovement(self)
+            }
         }
     }
+    
+    /// Callback to track _contentOffset_ and _hasStopped_ changes
+    var onMovement: ((_ viewport: MCViewport) -> ())?
     
     /// Helper function that updates _contentOffset_ and sets _hasStopped_ to _true_
     func jumpTo(contentOffset: CGPoint) {

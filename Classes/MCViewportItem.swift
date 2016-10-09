@@ -18,7 +18,7 @@ extension MCViewport {
         
         var zIndex: CGFloat = 0
         
-        var viewport: MCViewport?
+        weak var viewport: MCViewport?
         
         var frame: CGRect {
             guard let viewport = viewport else { return originalFrame }

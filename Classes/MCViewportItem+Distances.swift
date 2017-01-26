@@ -11,7 +11,7 @@ import UIKit
 
 extension MCViewport {
     class Distances {
-        fileprivate let item: Item
+        fileprivate unowned let item: Item
         
         var left: CGFloat {
             guard let viewport = item.viewport else { return 0 }

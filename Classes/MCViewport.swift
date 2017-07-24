@@ -83,6 +83,13 @@ class MCViewport: UIView {
         }
     }
     
+    func removeAllItems() {
+        for item in items {
+            item.viewport = nil
+        }
+        items.removeAll()
+    }
+    
     // MARK: - Layout
     
     override func layoutSubviews() {

@@ -78,15 +78,11 @@ class MCViewport: UIView {
     
     func removeItem(_ item: Item) {
         if let index = items.index(of: item) {
-            item.viewport = nil
             items.remove(at: index)
         }
     }
     
     func removeAllItems() {
-        for item in items {
-            item.viewport = nil
-        }
         items.removeAll()
     }
     

@@ -85,7 +85,7 @@ extension MCViewport {
             return recognizer
         }()
         
-        func onDirection(_ recognizer: DirectionGestureRecognizer) {
+        @objc func onDirection(_ recognizer: DirectionGestureRecognizer) {
             switch recognizer.state {
             case .began:
                 direction = nil

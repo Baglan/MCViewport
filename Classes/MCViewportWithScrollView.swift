@@ -16,6 +16,12 @@ class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
     func setupScrollView() {
         scrollView = MCViewport.ScrollView(frame: frame)
         scrollView.isHidden = true
+        
+        // Fix for weird behavior on iPhone X
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
+        
         addSubview(scrollView)
         addGestureRecognizer(scrollView.panGestureRecognizer)
         addGestureRecognizer(scrollView.directionGestureRecognizer)

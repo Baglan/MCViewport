@@ -10,9 +10,13 @@ import Foundation
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
+/// MCViewport with a built-in UIScrollView used for traching pans
 class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
+    
+    /// The internal scroll view
     var scrollView: MCViewport.ScrollView!
     
+    /// Setup the internal scroll view
     func setupScrollView() {
         scrollView = MCViewport.ScrollView(frame: frame)
         scrollView.isHidden = true
@@ -27,6 +31,8 @@ class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
         addGestureRecognizer(scrollView.directionGestureRecognizer)
         scrollView.delegate = self
     }
+    
+    // MARK: - UIScrollViewDelegate
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         contentOffset = scrollView.contentOffset
@@ -46,6 +52,8 @@ class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
         }
     }
     
+    // MARK: - Initialization
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupScrollView()
@@ -58,6 +66,8 @@ class MCViewportWithScrollView: MCViewport, UIScrollViewDelegate {
 }
 
 extension MCViewport {
+    
+    /// Internal scroll view class with optional better direction locking
     class ScrollView: UIScrollView {
         override var contentOffset: CGPoint {
             get { return super.contentOffset }
@@ -104,6 +114,7 @@ extension MCViewport {
         }
     }
     
+    /// Gesture recogniser for figuring out the scroll direction
     class DirectionGestureRecognizer: UIGestureRecognizer {
         enum Direction {
             case horizontal

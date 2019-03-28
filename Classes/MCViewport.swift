@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
+/// The viewport
 class MCViewport: UIView {
+    
     /// Tracks whether scrolling has stopped
     var hasStopped: Bool = true {
         didSet {
@@ -51,10 +53,12 @@ class MCViewport: UIView {
     
     // MARK: - Recycler
     
+    /// Recycler keeps track of reusable items
     var recycler = MCRecycler()
     
     // MARK: - Pocket
     
+    /// An invisible subview in which reused views are temporarily stored
     lazy var hiddenPocket: UIView = {
         let pocket = UIView()
         pocket.isHidden = true
@@ -64,24 +68,34 @@ class MCViewport: UIView {
     
     // MARK: - Items
     
+    /// The current items
     fileprivate var items = Set<Item>()
+    
+    /// The current visible items
     fileprivate var visibleItems = Set<Item>()
     
+    /// Check whether the item is visible
+    /// - Parameter item: The items to check
     func isItemVisible(_ item: Item) -> Bool {
         return visibleItems.contains(item)
     }
     
+    /// Add an item
+    /// - Parameter item: An item to add
     func addItem(_ item: Item) {
         items.insert(item)
         item.viewport = self
     }
     
+    /// Remove an item
+    /// - Parameter item: An item to remove
     func removeItem(_ item: Item) {
-        if let index = items.index(of: item) {
+        if let index = items.firstIndex(of: item) {
             items.remove(at: index)
         }
     }
     
+    /// Remove all items
     func removeAllItems() {
         items.removeAll()
     }
@@ -115,7 +129,7 @@ class MCViewport: UIView {
         
         for item in sorted {
             if let view = item.view {
-                sendSubview(toBack: view)
+                sendSubviewToBack(view)
             }
         }
         
